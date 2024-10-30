@@ -27,14 +27,12 @@
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "/api-reference",
-      "openapi": "/api-reference/whatsapp_template_message_generation.json"
+      "name": "whatsapp template generation",
+      "url": "/whatsapp-template-generation"
     },
     {
-      "name": "API Reference2",
-      "url": "/api-reference2",
-      "openapi": "/api-reference2/chatbot-system.json"
+      "name": "Chat Bot System",
+      "url": "/chat-bot-system"
     }
   ],
   "anchors": [
@@ -75,15 +73,38 @@
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "whatsapp template generation",
       "pages": [
-        "api-reference/introduction"
+        "whatsapp-template-generation/introduction"
       ]
     },
     {
-      "group": "API Reference2",
+      "group": "endpoints",
       "pages": [
-        "api-reference2/introduction"
+        "whatsapp-template-generation/endpoint/prod"
+      ]
+    },
+    {
+      "group": "Chat Bot System",
+      "pages": [
+        "chat-bot-system/introduction"
+      ]
+    },
+    {
+      "group": "Endpoints",
+      "pages": [
+        "chat-bot-system/endpoint/bot-persona-configure",
+        "chat-bot-system/endpoint/bot-persona-fields",
+        "chat-bot-system/endpoint/business-clear-all-records",
+        "chat-bot-system/endpoint/business-ingest-article",
+        "chat-bot-system/endpoint/business-ingest-files",
+        "chat-bot-system/endpoint/business-ingest-scraping",
+        "chat-bot-system/endpoint/business-ingest-status",
+        "chat-bot-system/endpoint/business-ingest-youtube",
+        "chat-bot-system/endpoint/chat-resume",
+        "chat-bot-system/endpoint/chat",
+        "chat-bot-system/endpoint/create_business",
+        "chat-bot-system/endpoint/get_business_list"
       ]
     }
   ],
