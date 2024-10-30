@@ -1,0 +1,59 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Whatsapp Template message generator",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://ajrbr73v5ylfwa7bfkox447rni0dbvis.lambda-url.ap-south-1.on.aws"
+    },
+    {
+      "url": "https://kdq2lwhibkthomlf33pbdd52uy0lcfqu.lambda-url.ap-south-1.on.aws"
+    }
+  ],
+  "paths": {
+    "/whatsapp-template": {
+      "post": {
+        "tags": [
+          "General"
+        ],
+        "summary": "prod",
+        "description": "### POST /health-check\n\nA function that prints and returns the attributes passed in the prompt.\n\n#### Request Body\n\n`{ Same as /whatsapp-template}`\n\n#### Response (JSON Schema)\n\n``` json\n{\"message\":\"Attributes printed in console, {'DB': 'qdrant', 'TOPK': 10, 'user_name': '', 'contact': '', 'email_id': '', 'template_category': 'Authentication', 'template_language': 'English', 'message_input': 'OTP for login into cyber systems user panel.', 'optimization_choice': 'Click Rate', 'mood': 'Happy', 'style': '', 'emoji': True}\"}\n```\n### POST /whatsapp-template\n\n#### Request Body\n\n- `data` (object)\n- `Records` (array)\n- `body` (object)\n- `template_category` (string)\n- `template_language` (string)\n- `message_input` (string)\n- `optimization_choice` (string)\n- `mood` (string)\n- `user_name` (Optional: string)\n- `contact` (Optional: string)\n- `email_id` (Optional: string)\n- `style` (Optional: string)\n- `emoji` (Optional: boolean)\n- `DB` (Optional: string = **\"qdrant\"** | \"pinecone\"\n- `TOPK` (Optional: int = 10)\n\n#### Response (JSON Schema)\n\nThe response will contain the generated whatsapp template.\n\n``` json\n{ \"type\": \"object\", \"properties\": { \"status\": { \"type\": \"string\" }, \"message\": { \"type\": \"string\" } } }\n```",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "data": {
+                    "Records": [
+                      {
+                        "body": {
+                          "template_category": "Marketing",
+                          "template_language": "English",
+                          "message_input": "sale on cooler",
+                          "optimization_choice": "Click Rate",
+                          "mood": "Funny",
+                          "rate_limit": false
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

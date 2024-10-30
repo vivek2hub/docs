@@ -1,0 +1,738 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Chatbot-System",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com" 
+    }
+  ],
+  "paths": {
+    "/business": {
+      "post": {
+        "summary": "get_business_list",
+        "description": "### Business Retrieval\n\nThis endpoint allows the creation of a retireve list of business.\n\n#### Request Body\n\n- cursor (number, required): Specifies the cursor position.\n    \n\n#### Response\n\nThe response of this request is a JSON schema.",
+        "operationId": "getBusinessList",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cursor": {
+                    "type": "number",
+                    "example": 0
+                  }
+                }
+              },
+              "examples": {
+                "get_business_list": {
+                  "value": {
+                    "cursor": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/business/create": {
+      "post": {
+        "summary": "create_business",
+        "description": "### Create Business\n\nThe `Create Business` endpoint allows you to create a new business with the provided details.\n\n#### Request Body\n\n- `business_name` (string, required): The name of the business.\n    \n- `whatsapp_display_phone_number` (string, required): The phone number to be displayed on WhatsApp.\n    \n- `business_email` (string): The email address of the business.\n    \n- `aisensy_project_id` (string, required): The project ID for Aisensy integration.\n    \n- `aisensy_private_app_id` (string, required): The private app ID for Aisensy integration.\n    \n- `aisensy_api_key` (string, required): The API key for Aisensy integration.\n    \n\n#### Response\n\nThe response for this request will be a JSON object with the schema:\n\n``` json\n{\n  \"message\": \"string\"\n}\n\n ```\n\n- `message` (string): A message indicating the status of the request.",
+        "operationId": "createBusiness",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "aisensy_api_key": {
+                    "type": "string",
+                    "example": "aisensy_api_key"
+                  },
+                  "aisensy_private_app_id": {
+                    "type": "string",
+                    "example": "aisensy_private_app_id"
+                  },
+                  "aisensy_project_id": {
+                    "type": "string",
+                    "example": "aisensy_project_id"
+                  },
+                  "business_email": {
+                    "type": "string",
+                    "example": "example@example.com"
+                  },
+                  "business_name": {
+                    "type": "string",
+                    "example": "Geekster"
+                  },
+                  "whatsapp_display_phone_number": {
+                    "type": "string",
+                    "example": "8297136620"
+                  }
+                }
+              },
+              "examples": {
+                "create_business": {
+                  "value": {
+                    "aisensy_api_key": "aisensy_api_key",
+                    "aisensy_private_app_id": "aisensy_private_app_id",
+                    "aisensy_project_id": "aisensy_project_id",
+                    "business_email": "example@example.com",
+                    "business_name": "Geekster",
+                    "whatsapp_display_phone_number": "8297136620"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/business/submit-ingest-task/{business_id}": {
+      "post": {
+        "summary": "business-ingest-files",
+        "description": "### Submit Ingest Task\n\nThis endpoint is used to submit an ingest task for a specific business.\n\n**Request Body**\n\n- The request should be sent as a form-data type.\n    - `pdf_file` (file): The PDF file to be ingested.\n        \n\n**Example Request:**\n\n```\nPOST {{base_url}}/business/submit-ingest-task/{{business_id}}\nContent-Type: multipart/form-data\npdf_file: [PDF FILE CONTENT]\n\n ```\n\n**Response**  \nUpon successful submission, the response will contain the details of the submitted ingest task.\n\n**Example Response:**\n\n``` json\n{\n    \"task_id\": \"12345\",\n    \"sucess\": true,\n    \"message\": \"Task created successfully\"\n}\n\n ```",
+        "operationId": "businessIngestFiles",
+        "parameters": [
+          {
+            "name": "task-type",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "pdf-upload"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "csv_file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "pdf_file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "business_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/business/submit-article-task/{business_id}": {
+      "post": {
+        "summary": "business-ingest-article",
+        "description": "This endpoint allows the user to submit an article task for a specific business. The HTTP POST request should be made to {{base_url}}/business/submit-article-task/{{business_id}} with a raw request body containing the article title and content.\n\n### Request Body\n\n- article_title (string, required): The title of the article.\n    \n- article_content (string, required): The content of the article.\n    \n\n### Response\n\nThe response of this request is documented as a JSON schema:\n\n``` json\n{\n    \"success\": true,\n    \"task_id\": task_id,\n    \"message\": \"Task created successfully\"\n}\n\n ```\n\nIn case of error:\n\n``` json\n{     \n     \"error\": error\n}\n ```",
+        "operationId": "businessIngestArticle",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "article_content": {
+                    "type": "string",
+                    "example": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>About Geekster</title>\n</head>\n<body>\n    <h1>About Geekster</h1>\n    <p>Geekster is an innovative online platform designed to help engineers and tech enthusiasts enhance their skills and secure the best tech jobs in the industry. Founded with a mission to bridge the gap between education and employment, Geekster provides a range of resources, including comprehensive courses, real-world projects, and personalized mentorship.</p>\n\n    <h2>Key Features</h2>\n    <ul>\n        <li><strong>Comprehensive Courses:</strong> Geekster offers a variety of courses in key tech areas such as web development, data science, and programming languages. These courses are designed to be practical and industry-relevant, helping learners acquire the skills needed to excel in their careers.</li>\n        <li><strong>Real-World Projects:</strong> Learners can engage in real-world projects that provide hands-on experience and enhance their problem-solving skills. These projects are an integral part of Geekster's learning approach, ensuring that students can apply their knowledge in practical scenarios.</li>\n        <li><strong>Personalized Mentorship:</strong> Geekster provides personalized mentorship from industry experts who guide students through their learning journey. Mentors offer valuable insights, answer questions, and help students navigate the complexities of the tech world.</li>\n        <li><strong>Job Placement Assistance:</strong> Geekster is dedicated to helping students find the best tech jobs. They offer job placement assistance, including resume building, interview preparation, and direct connections with top tech companies.</li>\n    </ul>\n\n    <h2>Learning Approach</h2>\n    <p>Geekster's learning approach is centered around practical and industry-relevant education. They emphasize the importance of hands-on experience, problem-solving, and continuous learning. The platform's courses are designed to be interactive and engaging, ensuring that learners stay motivated and achieve their goals.</p>\n\n    <h2>Success Stories</h2>\n    <p>Many students have successfully transitioned into rewarding tech careers through Geekster's programs. These success stories are a testament to the platform's effectiveness in providing quality education and career support.</p>\n\n    <h2>Contact Information</h2>\n    <p>For more information about Geekster, visit their official website: <a href=\"https://www.geekster.in/\">Geekster</a></p>\n</body>\n</html>"
+                  },
+                  "article_title": {
+                    "type": "string",
+                    "example": "About Geekster"
+                  }
+                }
+              },
+              "examples": {
+                "business-ingest-article": {
+                  "value": {
+                    "article_content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>About Geekster</title>\n</head>\n<body>\n    <h1>About Geekster</h1>\n    <p>Geekster is an innovative online platform designed to help engineers and tech enthusiasts enhance their skills and secure the best tech jobs in the industry. Founded with a mission to bridge the gap between education and employment, Geekster provides a range of resources, including comprehensive courses, real-world projects, and personalized mentorship.</p>\n\n    <h2>Key Features</h2>\n    <ul>\n        <li><strong>Comprehensive Courses:</strong> Geekster offers a variety of courses in key tech areas such as web development, data science, and programming languages. These courses are designed to be practical and industry-relevant, helping learners acquire the skills needed to excel in their careers.</li>\n        <li><strong>Real-World Projects:</strong> Learners can engage in real-world projects that provide hands-on experience and enhance their problem-solving skills. These projects are an integral part of Geekster's learning approach, ensuring that students can apply their knowledge in practical scenarios.</li>\n        <li><strong>Personalized Mentorship:</strong> Geekster provides personalized mentorship from industry experts who guide students through their learning journey. Mentors offer valuable insights, answer questions, and help students navigate the complexities of the tech world.</li>\n        <li><strong>Job Placement Assistance:</strong> Geekster is dedicated to helping students find the best tech jobs. They offer job placement assistance, including resume building, interview preparation, and direct connections with top tech companies.</li>\n    </ul>\n\n    <h2>Learning Approach</h2>\n    <p>Geekster's learning approach is centered around practical and industry-relevant education. They emphasize the importance of hands-on experience, problem-solving, and continuous learning. The platform's courses are designed to be interactive and engaging, ensuring that learners stay motivated and achieve their goals.</p>\n\n    <h2>Success Stories</h2>\n    <p>Many students have successfully transitioned into rewarding tech careers through Geekster's programs. These success stories are a testament to the platform's effectiveness in providing quality education and career support.</p>\n\n    <h2>Contact Information</h2>\n    <p>For more information about Geekster, visit their official website: <a href=\"https://www.geekster.in/\">Geekster</a></p>\n</body>\n</html>",
+                    "article_title": "About Geekster"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "business_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/business/submit-scrapping-task/{business_id}": {
+      "post": {
+        "summary": "business-ingest-scraping",
+        "description": "## Submit Scrapping Task\n\nThis endpoint is used to submit a scrapping task for a specific business.\n\n### Request Body\n\n- `data_source` (string, required): The source of the data for the scrapping task.\n    \n\n### Response\n\nThe response will include the status of the scrapping task submission.\n\n``` json\n{\n    \"success\": true,\n    \"task_id\": task_id,\n    \"message\": \"Task created successfully\"\n}\n\n ```\n\nIn case of failure:\n\n``` json\n{\n    \"error\": ERROR\n}\n ```",
+        "operationId": "businessIngestScraping",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data_source": {
+                    "type": "string",
+                    "example": "https://www.geekster.in/"
+                  }
+                }
+              },
+              "examples": {
+                "business-ingest-scraping": {
+                  "value": {
+                    "data_source": "https://www.geekster.in/"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "business_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/business/submit-youtube-scrapping-task/{business_id}": {
+      "post": {
+        "summary": "business-ingest-youtube",
+        "description": "### Submit YouTube Scrapping Task\n\nThis endpoint allows the user to submit a YouTube scrapping task for a specific business.\n\n#### Request Body\n\n- `data_source` (string, required): The source of data for the YouTube scrapping task.\n    \n\n#### Response\n\nThe response will contain the status of the submitted YouTube scrapping task.\n\n``` json\n{\n    \"success\": true,\n    \"task_id\": \"TASK_ID\",\n    \"message\": \"Task created successfully\"\n}\n\n ```\n\nIn case of failure:\n\n``` json\n{\n    \"error\": \"ERROR\"\n}\n ```",
+        "operationId": "businessIngestYoutube",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data_source": {
+                    "type": "string",
+                    "example": "https://www.youtube.com/watch?v=h7K_JjWB_wk"
+                  }
+                }
+              },
+              "examples": {
+                "business-ingest-youtube": {
+                  "value": {
+                    "data_source": "https://www.youtube.com/watch?v=h7K_JjWB_wk"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "business_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/business/ingest-task-status": {
+      "post": {
+        "summary": "business-ingest-status",
+        "description": "### Ingest Task Status\n\nThis endpoint allows you to retrieve the status of a specific task.\n\n#### Request\n\n- Method: POST\n    \n- Base URL: {{base_url}}\n    \n- Endpoint: /business/ingest-task-status\n    \n- Body:\n    \n    - task_id (string, required): The ID of the task for which you want to retrieve the status.\n        \n\n#### Response\n\nThe response of this request is a JSON object with the following schema:\n\n``` json\n{\n  \"task_id\": \"string\",\n  \"status\": \"string\"\n}\n\n ```\n\n- task_id (string): The ID of the task.\n    \n- status (string): The current status of the task.\n    \n\nIn case of failure:\n\n``` json\n{\n    \"error\": \"ERROR\"\n}\n ```",
+        "operationId": "businessIngestStatus",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task_id": {
+                    "type": "string",
+                    "example": ""
+                  }
+                }
+              },
+              "examples": {
+                "business-ingest-status": {
+                  "value": {
+                    "task_id": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/business/clear-all-records": {
+      "post": {
+        "summary": "business-clear-all-records",
+        "description": "### Clear All Records\n\nThis endpoint is used to clear all records associated with a specific business.\n\n#### Request\n\n- Method: POST\n    \n- Endpoint: `{{base_url}}/business/clear-all-records`\n    \n- Body:\n    \n    - `business_id` (text, required): The ID of the business for which records need to be cleared.\n        \n\n#### Response\n\nThe response for this request is a JSON object conforming to the following schema:\n\n``` json\n{\n  \"status\": \"string\",\n  \"records_deleted\": integer\n}\n\n ```\n\n- `status` (string): The status of the operation.\n    \n- `records_deleted` (integer): A count of how many records deleted\n    \n\nIn case of failure:\n\n``` json\n{\n    \"status\": \"string\"\n    \"error\": \"string\"\n}\n\n ```",
+        "operationId": "businessClearAllRecords",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "business-clear-all-records": {
+                  "value": "{\n    \"business_id\": {{business_id}}\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/business/bot-persona-fields": {
+      "get": {
+        "summary": "bot-persona-fields",
+        "description": "This endpoint makes an HTTP GET request to retrieve bot persona fields for a business. The request does not require a request body, and the response will include the bot persona fields for the specified business.\n\n### Response\n\n``` json\n{\n    \"message\": \"string\",\n    \"questions\": JSON.schema\n}\n\n ```",
+        "operationId": "botPersonaFields",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/business/bot-persona-configure": {
+      "post": {
+        "summary": "bot-persona-configure",
+        "description": "The `POST /business/bot-persona-configure` endpoint is used to configure the bot persona for a business. The request should be sent in JSON format with the `business_whatsapp_display_phone_number` and an array of `answers` containing `question_id` and `answer` for each question.\n\n### Response\n\nThe response of this request is a JSON object conforming to the following schema:\n\n``` json\n{\n  \"success\": boolean,\n  \"chatbot_persona\": \"string\",\n  \"chatbot_persona_direct\": \"string\",\n  \"message\": \"Bot configured successfully\"\n}\n\n ```\n\nIn case of failure:\n\n``` json\n{\n    \"success\": boolean,\n    \"message\": \"string\"\n}\n ```",
+        "operationId": "botPersonaConfigure",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "answers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "answer": {
+                          "type": "string",
+                          "example": "We are Geekster and we are an online education platform specializing in tech-related courses. It provides comprehensive learning programs in Full Stack Web Development and Data Science & Machine Learning, with a strong focus on placement assistance. The industry encompasses online education, coding bootcamps, and career development services."
+                        },
+                        "question_id": {
+                          "type": "string",
+                          "example": "2"
+                        }
+                      }
+                    },
+                    "example": [
+                      {
+                        "answer": "We are Geekster and we are an online education platform specializing in tech-related courses. It provides comprehensive learning programs in Full Stack Web Development and Data Science & Machine Learning, with a strong focus on placement assistance. The industry encompasses online education, coding bootcamps, and career development services.",
+                        "question_id": "2"
+                      },
+                      {
+                        "answer": "Geekster offers Full Stack Web Development and Data Science & Machine Learning programs. Key features include real-world projects, AI-powered curriculum, comprehensive learning in Data Structures & Algorithms (DSA), MERN stack, AWS, and dedicated career services such as mock interviews, resume building, and job referrals.",
+                        "question_id": "3"
+                      },
+                      {
+                        "answer": "Geekster's main customers are final year students, recent graduates, and working professionals who are interested in building a career in tech. The platform is designed to cater to individuals seeking to upskill or transition into tech roles.",
+                        "question_id": "4"
+                      },
+                      {
+                        "answer": "Customers interact with Geekster through its online platform. They can sign up for courses, participate in live classes, access recorded sessions, receive 1:1 mentorship, and use various resources for career development and job placement.",
+                        "question_id": "5"
+                      },
+                      {
+                        "answer": "Customers prefer flexible learning schedules, especially working professionals who need classes to be scheduled after office hours or on weekends. They also value comprehensive support systems, including doubt resolution, mock interviews, and personalized career guidance.",
+                        "question_id": "6"
+                      },
+                      {
+                        "answer": "Geekster's brand voice is professional yet approachable and supportive. The tone aims to be encouraging, empowering learners to achieve their career goals while maintaining a sense of professionalism.",
+                        "question_id": "7"
+                      },
+                      {
+                        "answer": "The chatbot should reflect Geekster’s commitment to quality education, supportiveness, innovation, and reliability. It should convey a sense of expertise while being friendly and helpful to users.",
+                        "question_id": "8"
+                      },
+                      {
+                        "answer": "The industry uses a moderate level of technical language, including terms like MERN stack, AWS, Data Structures & Algorithms, and machine learning. Most customers are familiar with these terms, but the chatbot should be able to simplify explanations for beginners.",
+                        "question_id": "9"
+                      },
+                      {
+                        "answer": "Geekster prefers the chatbot to use semi-formal language. It should maintain professionalism but also be conversational and approachable to make users feel comfortable.",
+                        "question_id": "10"
+                      },
+                      {
+                        "answer": "GeekBot",
+                        "question_id": "direct-chatbot_name"
+                      },
+                      {
+                        "answer": "If I'm not sure about the answer, let me check with my team and get back to you. Meanwhile, you can explore our FAQs or contact us directly for assistance.",
+                        "question_id": "direct-no_answer_reply"
+                      },
+                      {
+                        "answer": "FewEmojis",
+                        "question_id": "direct-preferred_emoji_quantity"
+                      }
+                    ]
+                  },
+                  "business_whatsapp_display_phone_number": {
+                    "type": "string",
+                    "example": "8297136620"
+                  }
+                }
+              },
+              "examples": {
+                "bot-persona-configure": {
+                  "value": {
+                    "answers": [
+                      {
+                        "answer": "We are Geekster and we are an online education platform specializing in tech-related courses. It provides comprehensive learning programs in Full Stack Web Development and Data Science & Machine Learning, with a strong focus on placement assistance. The industry encompasses online education, coding bootcamps, and career development services.",
+                        "question_id": "2"
+                      },
+                      {
+                        "answer": "Geekster offers Full Stack Web Development and Data Science & Machine Learning programs. Key features include real-world projects, AI-powered curriculum, comprehensive learning in Data Structures & Algorithms (DSA), MERN stack, AWS, and dedicated career services such as mock interviews, resume building, and job referrals.",
+                        "question_id": "3"
+                      },
+                      {
+                        "answer": "Geekster's main customers are final year students, recent graduates, and working professionals who are interested in building a career in tech. The platform is designed to cater to individuals seeking to upskill or transition into tech roles.",
+                        "question_id": "4"
+                      },
+                      {
+                        "answer": "Customers interact with Geekster through its online platform. They can sign up for courses, participate in live classes, access recorded sessions, receive 1:1 mentorship, and use various resources for career development and job placement.",
+                        "question_id": "5"
+                      },
+                      {
+                        "answer": "Customers prefer flexible learning schedules, especially working professionals who need classes to be scheduled after office hours or on weekends. They also value comprehensive support systems, including doubt resolution, mock interviews, and personalized career guidance.",
+                        "question_id": "6"
+                      },
+                      {
+                        "answer": "Geekster's brand voice is professional yet approachable and supportive. The tone aims to be encouraging, empowering learners to achieve their career goals while maintaining a sense of professionalism.",
+                        "question_id": "7"
+                      },
+                      {
+                        "answer": "The chatbot should reflect Geekster’s commitment to quality education, supportiveness, innovation, and reliability. It should convey a sense of expertise while being friendly and helpful to users.",
+                        "question_id": "8"
+                      },
+                      {
+                        "answer": "The industry uses a moderate level of technical language, including terms like MERN stack, AWS, Data Structures & Algorithms, and machine learning. Most customers are familiar with these terms, but the chatbot should be able to simplify explanations for beginners.",
+                        "question_id": "9"
+                      },
+                      {
+                        "answer": "Geekster prefers the chatbot to use semi-formal language. It should maintain professionalism but also be conversational and approachable to make users feel comfortable.",
+                        "question_id": "10"
+                      },
+                      {
+                        "answer": "GeekBot",
+                        "question_id": "direct-chatbot_name"
+                      },
+                      {
+                        "answer": "If I'm not sure about the answer, let me check with my team and get back to you. Meanwhile, you can explore our FAQs or contact us directly for assistance.",
+                        "question_id": "direct-no_answer_reply"
+                      },
+                      {
+                        "answer": "FewEmojis",
+                        "question_id": "direct-preferred_emoji_quantity"
+                      }
+                    ],
+                    "business_whatsapp_display_phone_number": "8297136620"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/chat": {
+      "post": {
+        "summary": "chat",
+        "description": "## Chat Message\n\nThis endpoint allows you to send a chat message with the specified message content, phone number, and project ID.\n\n### Request Body\n\n- `data` (object)\n    \n    - `message` (object)\n        \n        - `message_content` (object)\n            \n            - `text` (string, required): The content of the message.\n                \n        - `phone_number` (string, required): The phone number of the recipient.\n            \n        - `project_id` (string, required): The ID of the project.\n            \n\n### Response\n\nThe response will include the status of the message delivery.\n\n``` json\n{\n    \"status\": \"string\",\n    \"success\": boolean,\n    \"response_message\": \"string\"\n}\n\n ```\n\nIn case of failure:\n\n``` json\n{\n    \"status\": \"string\",\n    \"success\": boolean,\n    \"error\": \"string\"\n}\n\n ```",
+        "operationId": "chat",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "object",
+                        "properties": {
+                          "message_content": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string",
+                                "example": "Hey bot whts up?"
+                              }
+                            }
+                          },
+                          "phone_number": {
+                            "type": "string",
+                            "example": "phone_number"
+                          },
+                          "project_id": {
+                            "type": "string",
+                            "example": "project_id"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "chat": {
+                  "value": {
+                    "data": {
+                      "message": {
+                        "message_content": {
+                          "text": "Hey bot whts up?"
+                        },
+                        "phone_number": "phone_number",
+                        "project_id": "project_id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/chat/resume": {
+      "post": {
+        "summary": "chat-resume",
+        "description": "### POST /chat/resume\n\nThis endpoint is used to resume a chat session.\n\n#### Request Body\n\n- `business_whatsapp_display_phone_number` (string, optional): The phone number displayed for the business on WhatsApp.\n    \n- `user_phone_number` (string, optional): The phone number of the user.\n    \n\n#### Response\n\nThe response for this request follows the JSON schema below:\n\n``` json\n{\n  \"error\": boolean,\n  \"message\": \"string\"\n}\n\n ```",
+        "operationId": "chatResume",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "example": "{{x-api-key}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "business_whatsapp_display_phone_number": {
+                    "type": "string",
+                    "example": "8297136620"
+                  },
+                  "user_phone_number": {
+                    "type": "string",
+                    "example": "919999999999"
+                  }
+                }
+              },
+              "examples": {
+                "chat-resume": {
+                  "value": {
+                    "business_whatsapp_display_phone_number": "8297136620",
+                    "user_phone_number": "919999999999"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
