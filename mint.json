@@ -27,12 +27,8 @@
   },
   "tabs": [
     {
-      "name": "whatsapp template generation",
-      "url": "/whatsapp-template-generation"
-    },
-    {
-      "name": "Chat Bot System",
-      "url": "/chat-bot-system"
+      "name": "Api Reference",
+      "url": "/api-reference"
     }
   ],
   "anchors": [
@@ -58,53 +54,80 @@
       "pages": [
         "introduction",
         "quickstart",
-        "development"
+        {
+          "group": "Development",
+          "pages": ["development"]
+        }
       ]
     },
     {
       "group": "Essentials",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        {
+          "group": "Markdown Essentials",
+          "pages": ["essentials/markdown"]
+        },
+        {
+          "group": "Code Essentials",
+          "pages": ["essentials/code"]
+        },
+        {
+          "group": "Images",
+          "pages": ["essentials/images"]
+        },
+        {
+          "group": "Settings and Navigation",
+          "pages": [
+            "essentials/settings",
+            "essentials/navigation",
+            {
+              "group": "Reusable Snippets",
+              "pages": ["essentials/reusable-snippets"]
+            }
+          ]
+        }
       ]
     },
     {
-      "group": "whatsapp template generation",
+      "group": "Api reference",
       "pages": [
-        "whatsapp-template-generation/introduction"
-      ]
-    },
-    {
-      "group": "endpoints",
-      "pages": [
-        "whatsapp-template-generation/endpoint/prod"
-      ]
-    },
-    {
-      "group": "Chat Bot System",
-      "pages": [
-        "chat-bot-system/introduction"
-      ]
-    },
-    {
-      "group": "Endpoints",
-      "pages": [
-        "chat-bot-system/endpoint/bot-persona-configure",
-        "chat-bot-system/endpoint/bot-persona-fields",
-        "chat-bot-system/endpoint/business-clear-all-records",
-        "chat-bot-system/endpoint/business-ingest-article",
-        "chat-bot-system/endpoint/business-ingest-files",
-        "chat-bot-system/endpoint/business-ingest-scraping",
-        "chat-bot-system/endpoint/business-ingest-status",
-        "chat-bot-system/endpoint/business-ingest-youtube",
-        "chat-bot-system/endpoint/chat-resume",
-        "chat-bot-system/endpoint/chat",
-        "chat-bot-system/endpoint/create_business",
-        "chat-bot-system/endpoint/get_business_list"
+        {
+          "group": "whatsapp template generation",
+          "pages": [
+            {
+              "group": "Introduction",
+              "pages": ["api-reference/whatsapp-template-generation/introduction"]
+            },
+            {
+              "group": "Endpoints",
+              "pages": ["api-reference/whatsapp-template-generation/endpoint/prod"]
+            }
+          ]
+        },
+        {
+          "group": "Chat Bot System",
+          "pages": [
+            { "group": "Introduction",
+              "pages":["api-reference/chat-bot-system/introduction"]},
+            {
+              "group": "Endpoints",
+              "pages": [
+                "api-reference/chat-bot-system/endpoint/bot-persona-configure",
+                "api-reference/chat-bot-system/endpoint/bot-persona-fields",
+                "api-reference/chat-bot-system/endpoint/business-clear-all-records",
+                "api-reference/chat-bot-system/endpoint/business-ingest-article",
+                "api-reference/chat-bot-system/endpoint/business-ingest-files",
+                "api-reference/chat-bot-system/endpoint/business-ingest-scraping",
+                "api-reference/chat-bot-system/endpoint/business-ingest-status",
+                "api-reference/chat-bot-system/endpoint/business-ingest-youtube",
+                "api-reference/chat-bot-system/endpoint/chat-resume",
+                "api-reference/chat-bot-system/endpoint/chat",
+                "api-reference/chat-bot-system/endpoint/create_business",
+                "api-reference/chat-bot-system/endpoint/get_business_list"
+              ]
+            }
+          ]
+        }
       ]
     }
   ],
