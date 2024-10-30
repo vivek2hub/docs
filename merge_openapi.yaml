@@ -1,0 +1,8 @@
+openapi: "3.0.2"
+info:
+  title: "Merged API"
+  version: "1.0"
+paths:
+  $include: './chatbot-system.yml'
+  $include: './rate-limiter.yml'
+  $include: './whatsapp_template_message_generation.yml'

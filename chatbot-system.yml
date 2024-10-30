@@ -1,0 +1,1056 @@
+openapi: 3.0.3
+info:
+  title: Chatbot-System
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: '{{base_url}}'
+paths:
+  /business:
+    post:
+      summary: get_business_list
+      description: |-
+        ### Business Retrieval
+
+        This endpoint allows the creation of a retireve list of business.
+
+        #### Request Body
+
+        - cursor (number, required): Specifies the cursor position.
+            
+
+        #### Response
+
+        The response of this request is a JSON schema.
+      operationId: getBusinessList
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cursor:
+                  type: number
+                  example: 0
+            examples:
+              get_business_list:
+                value:
+                  cursor: 0
+      responses:
+        '200':
+          description: ''
+  /business/create:
+    post:
+      summary: create_business
+      description: >-
+        ### Create Business
+
+
+        The `Create Business` endpoint allows you to create a new business with
+        the provided details.
+
+
+        #### Request Body
+
+
+        - `business_name` (string, required): The name of the business.
+            
+        - `whatsapp_display_phone_number` (string, required): The phone number
+        to be displayed on WhatsApp.
+            
+        - `business_email` (string): The email address of the business.
+            
+        - `aisensy_project_id` (string, required): The project ID for Aisensy
+        integration.
+            
+        - `aisensy_private_app_id` (string, required): The private app ID for
+        Aisensy integration.
+            
+        - `aisensy_api_key` (string, required): The API key for Aisensy
+        integration.
+            
+
+        #### Response
+
+
+        The response for this request will be a JSON object with the schema:
+
+
+        ``` json
+
+        {
+          "message": "string"
+        }
+
+         ```
+
+        - `message` (string): A message indicating the status of the request.
+      operationId: createBusiness
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                aisensy_api_key:
+                  type: string
+                  example: aisensy_api_key
+                aisensy_private_app_id:
+                  type: string
+                  example: aisensy_private_app_id
+                aisensy_project_id:
+                  type: string
+                  example: aisensy_project_id
+                business_email:
+                  type: string
+                  example: example@example.com
+                business_name:
+                  type: string
+                  example: Geekster
+                whatsapp_display_phone_number:
+                  type: string
+                  example: '8297136620'
+            examples:
+              create_business:
+                value:
+                  aisensy_api_key: aisensy_api_key
+                  aisensy_private_app_id: aisensy_private_app_id
+                  aisensy_project_id: aisensy_project_id
+                  business_email: example@example.com
+                  business_name: Geekster
+                  whatsapp_display_phone_number: '8297136620'
+      responses:
+        '200':
+          description: ''
+  /business/submit-ingest-task/{business_id}:
+    post:
+      summary: business-ingest-files
+      description: >-
+        ### Submit Ingest Task
+
+
+        This endpoint is used to submit an ingest task for a specific business.
+
+
+        **Request Body**
+
+
+        - The request should be sent as a form-data type.
+            - `pdf_file` (file): The PDF file to be ingested.
+                
+
+        **Example Request:**
+
+
+        ```
+
+        POST {{base_url}}/business/submit-ingest-task/{{business_id}}
+
+        Content-Type: multipart/form-data
+
+        pdf_file: [PDF FILE CONTENT]
+
+         ```
+
+        **Response**  
+
+        Upon successful submission, the response will contain the details of the
+        submitted ingest task.
+
+
+        **Example Response:**
+
+
+        ``` json
+
+        {
+            "task_id": "12345",
+            "sucess": true,
+            "message": "Task created successfully"
+        }
+
+         ```
+      operationId: businessIngestFiles
+      parameters:
+        - name: task-type
+          in: header
+          schema:
+            type: string
+            example: pdf-upload
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                csv_file:
+                  type: string
+                  format: binary
+                pdf_file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: ''
+    parameters:
+      - name: business_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /business/submit-article-task/{business_id}:
+    post:
+      summary: business-ingest-article
+      description: >-
+        This endpoint allows the user to submit an article task for a specific
+        business. The HTTP POST request should be made to
+        {{base_url}}/business/submit-article-task/{{business_id}} with a raw
+        request body containing the article title and content.
+
+
+        ### Request Body
+
+
+        - article_title (string, required): The title of the article.
+            
+        - article_content (string, required): The content of the article.
+            
+
+        ### Response
+
+
+        The response of this request is documented as a JSON schema:
+
+
+        ``` json
+
+        {
+            "success": true,
+            "task_id": task_id,
+            "message": "Task created successfully"
+        }
+
+         ```
+
+        In case of error:
+
+
+        ``` json
+
+        {     
+             "error": error
+        }
+         ```
+      operationId: businessIngestArticle
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                article_content:
+                  type: string
+                  example: |-
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>About Geekster</title>
+                    </head>
+                    <body>
+                        <h1>About Geekster</h1>
+                        <p>Geekster is an innovative online platform designed to help engineers and tech enthusiasts enhance their skills and secure the best tech jobs in the industry. Founded with a mission to bridge the gap between education and employment, Geekster provides a range of resources, including comprehensive courses, real-world projects, and personalized mentorship.</p>
+
+                        <h2>Key Features</h2>
+                        <ul>
+                            <li><strong>Comprehensive Courses:</strong> Geekster offers a variety of courses in key tech areas such as web development, data science, and programming languages. These courses are designed to be practical and industry-relevant, helping learners acquire the skills needed to excel in their careers.</li>
+                            <li><strong>Real-World Projects:</strong> Learners can engage in real-world projects that provide hands-on experience and enhance their problem-solving skills. These projects are an integral part of Geekster's learning approach, ensuring that students can apply their knowledge in practical scenarios.</li>
+                            <li><strong>Personalized Mentorship:</strong> Geekster provides personalized mentorship from industry experts who guide students through their learning journey. Mentors offer valuable insights, answer questions, and help students navigate the complexities of the tech world.</li>
+                            <li><strong>Job Placement Assistance:</strong> Geekster is dedicated to helping students find the best tech jobs. They offer job placement assistance, including resume building, interview preparation, and direct connections with top tech companies.</li>
+                        </ul>
+
+                        <h2>Learning Approach</h2>
+                        <p>Geekster's learning approach is centered around practical and industry-relevant education. They emphasize the importance of hands-on experience, problem-solving, and continuous learning. The platform's courses are designed to be interactive and engaging, ensuring that learners stay motivated and achieve their goals.</p>
+
+                        <h2>Success Stories</h2>
+                        <p>Many students have successfully transitioned into rewarding tech careers through Geekster's programs. These success stories are a testament to the platform's effectiveness in providing quality education and career support.</p>
+
+                        <h2>Contact Information</h2>
+                        <p>For more information about Geekster, visit their official website: <a href="https://www.geekster.in/">Geekster</a></p>
+                    </body>
+                    </html>
+                article_title:
+                  type: string
+                  example: About Geekster
+            examples:
+              business-ingest-article:
+                value:
+                  article_content: |-
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>About Geekster</title>
+                    </head>
+                    <body>
+                        <h1>About Geekster</h1>
+                        <p>Geekster is an innovative online platform designed to help engineers and tech enthusiasts enhance their skills and secure the best tech jobs in the industry. Founded with a mission to bridge the gap between education and employment, Geekster provides a range of resources, including comprehensive courses, real-world projects, and personalized mentorship.</p>
+
+                        <h2>Key Features</h2>
+                        <ul>
+                            <li><strong>Comprehensive Courses:</strong> Geekster offers a variety of courses in key tech areas such as web development, data science, and programming languages. These courses are designed to be practical and industry-relevant, helping learners acquire the skills needed to excel in their careers.</li>
+                            <li><strong>Real-World Projects:</strong> Learners can engage in real-world projects that provide hands-on experience and enhance their problem-solving skills. These projects are an integral part of Geekster's learning approach, ensuring that students can apply their knowledge in practical scenarios.</li>
+                            <li><strong>Personalized Mentorship:</strong> Geekster provides personalized mentorship from industry experts who guide students through their learning journey. Mentors offer valuable insights, answer questions, and help students navigate the complexities of the tech world.</li>
+                            <li><strong>Job Placement Assistance:</strong> Geekster is dedicated to helping students find the best tech jobs. They offer job placement assistance, including resume building, interview preparation, and direct connections with top tech companies.</li>
+                        </ul>
+
+                        <h2>Learning Approach</h2>
+                        <p>Geekster's learning approach is centered around practical and industry-relevant education. They emphasize the importance of hands-on experience, problem-solving, and continuous learning. The platform's courses are designed to be interactive and engaging, ensuring that learners stay motivated and achieve their goals.</p>
+
+                        <h2>Success Stories</h2>
+                        <p>Many students have successfully transitioned into rewarding tech careers through Geekster's programs. These success stories are a testament to the platform's effectiveness in providing quality education and career support.</p>
+
+                        <h2>Contact Information</h2>
+                        <p>For more information about Geekster, visit their official website: <a href="https://www.geekster.in/">Geekster</a></p>
+                    </body>
+                    </html>
+                  article_title: About Geekster
+      responses:
+        '200':
+          description: ''
+    parameters:
+      - name: business_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /business/submit-scrapping-task/{business_id}:
+    post:
+      summary: business-ingest-scraping
+      description: >-
+        ## Submit Scrapping Task
+
+
+        This endpoint is used to submit a scrapping task for a specific
+        business.
+
+
+        ### Request Body
+
+
+        - `data_source` (string, required): The source of the data for the
+        scrapping task.
+            
+
+        ### Response
+
+
+        The response will include the status of the scrapping task submission.
+
+
+        ``` json
+
+        {
+            "success": true,
+            "task_id": task_id,
+            "message": "Task created successfully"
+        }
+
+         ```
+
+        In case of failure:
+
+
+        ``` json
+
+        {
+            "error": ERROR
+        }
+         ```
+      operationId: businessIngestScraping
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data_source:
+                  type: string
+                  example: https://www.geekster.in/
+            examples:
+              business-ingest-scraping:
+                value:
+                  data_source: https://www.geekster.in/
+      responses:
+        '200':
+          description: ''
+    parameters:
+      - name: business_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /business/submit-youtube-scrapping-task/{business_id}:
+    post:
+      summary: business-ingest-youtube
+      description: >-
+        ### Submit YouTube Scrapping Task
+
+
+        This endpoint allows the user to submit a YouTube scrapping task for a
+        specific business.
+
+
+        #### Request Body
+
+
+        - `data_source` (string, required): The source of data for the YouTube
+        scrapping task.
+            
+
+        #### Response
+
+
+        The response will contain the status of the submitted YouTube scrapping
+        task.
+
+
+        ``` json
+
+        {
+            "success": true,
+            "task_id": "TASK_ID",
+            "message": "Task created successfully"
+        }
+
+         ```
+
+        In case of failure:
+
+
+        ``` json
+
+        {
+            "error": "ERROR"
+        }
+         ```
+      operationId: businessIngestYoutube
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data_source:
+                  type: string
+                  example: https://www.youtube.com/watch?v=h7K_JjWB_wk
+            examples:
+              business-ingest-youtube:
+                value:
+                  data_source: https://www.youtube.com/watch?v=h7K_JjWB_wk
+      responses:
+        '200':
+          description: ''
+    parameters:
+      - name: business_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /business/ingest-task-status:
+    post:
+      summary: business-ingest-status
+      description: |-
+        ### Ingest Task Status
+
+        This endpoint allows you to retrieve the status of a specific task.
+
+        #### Request
+
+        - Method: POST
+            
+        - Base URL: {{base_url}}
+            
+        - Endpoint: /business/ingest-task-status
+            
+        - Body:
+            
+            - task_id (string, required): The ID of the task for which you want to retrieve the status.
+                
+
+        #### Response
+
+        The response of this request is a JSON object with the following schema:
+
+        ``` json
+        {
+          "task_id": "string",
+          "status": "string"
+        }
+
+         ```
+
+        - task_id (string): The ID of the task.
+            
+        - status (string): The current status of the task.
+            
+
+        In case of failure:
+
+        ``` json
+        {
+            "error": "ERROR"
+        }
+         ```
+      operationId: businessIngestStatus
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_id:
+                  type: string
+                  example: ''
+            examples:
+              business-ingest-status:
+                value:
+                  task_id: ''
+      responses:
+        '200':
+          description: ''
+  /business/clear-all-records:
+    post:
+      summary: business-clear-all-records
+      description: >-
+        ### Clear All Records
+
+
+        This endpoint is used to clear all records associated with a specific
+        business.
+
+
+        #### Request
+
+
+        - Method: POST
+            
+        - Endpoint: `{{base_url}}/business/clear-all-records`
+            
+        - Body:
+            
+            - `business_id` (text, required): The ID of the business for which records need to be cleared.
+                
+
+        #### Response
+
+
+        The response for this request is a JSON object conforming to the
+        following schema:
+
+
+        ``` json
+
+        {
+          "status": "string",
+          "records_deleted": integer
+        }
+
+         ```
+
+        - `status` (string): The status of the operation.
+            
+        - `records_deleted` (integer): A count of how many records deleted
+            
+
+        In case of failure:
+
+
+        ``` json
+
+        {
+            "status": "string"
+            "error": "string"
+        }
+
+         ```
+      operationId: businessClearAllRecords
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            examples:
+              business-clear-all-records:
+                value: |-
+                  {
+                      "business_id": {{business_id}}
+                  }
+      responses:
+        '200':
+          description: ''
+  /business/bot-persona-fields:
+    get:
+      summary: bot-persona-fields
+      description: >-
+        This endpoint makes an HTTP GET request to retrieve bot persona fields
+        for a business. The request does not require a request body, and the
+        response will include the bot persona fields for the specified business.
+
+
+        ### Response
+
+
+        ``` json
+
+        {
+            "message": "string",
+            "questions": JSON.schema
+        }
+
+         ```
+      operationId: botPersonaFields
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      responses:
+        '200':
+          description: ''
+  /business/bot-persona-configure:
+    post:
+      summary: bot-persona-configure
+      description: >-
+        The `POST /business/bot-persona-configure` endpoint is used to configure
+        the bot persona for a business. The request should be sent in JSON
+        format with the `business_whatsapp_display_phone_number` and an array of
+        `answers` containing `question_id` and `answer` for each question.
+
+
+        ### Response
+
+
+        The response of this request is a JSON object conforming to the
+        following schema:
+
+
+        ``` json
+
+        {
+          "success": boolean,
+          "chatbot_persona": "string",
+          "chatbot_persona_direct": "string",
+          "message": "Bot configured successfully"
+        }
+
+         ```
+
+        In case of failure:
+
+
+        ``` json
+
+        {
+            "success": boolean,
+            "message": "string"
+        }
+         ```
+      operationId: botPersonaConfigure
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      answer:
+                        type: string
+                        example: >-
+                          We are Geekster and we are an online education
+                          platform specializing in tech-related courses. It
+                          provides comprehensive learning programs in Full Stack
+                          Web Development and Data Science & Machine Learning,
+                          with a strong focus on placement assistance. The
+                          industry encompasses online education, coding
+                          bootcamps, and career development services.
+                      question_id:
+                        type: string
+                        example: '2'
+                  example:
+                    - answer: >-
+                        We are Geekster and we are an online education platform
+                        specializing in tech-related courses. It provides
+                        comprehensive learning programs in Full Stack Web
+                        Development and Data Science & Machine Learning, with a
+                        strong focus on placement assistance. The industry
+                        encompasses online education, coding bootcamps, and
+                        career development services.
+                      question_id: '2'
+                    - answer: >-
+                        Geekster offers Full Stack Web Development and Data
+                        Science & Machine Learning programs. Key features
+                        include real-world projects, AI-powered curriculum,
+                        comprehensive learning in Data Structures & Algorithms
+                        (DSA), MERN stack, AWS, and dedicated career services
+                        such as mock interviews, resume building, and job
+                        referrals.
+                      question_id: '3'
+                    - answer: >-
+                        Geekster's main customers are final year students,
+                        recent graduates, and working professionals who are
+                        interested in building a career in tech. The platform is
+                        designed to cater to individuals seeking to upskill or
+                        transition into tech roles.
+                      question_id: '4'
+                    - answer: >-
+                        Customers interact with Geekster through its online
+                        platform. They can sign up for courses, participate in
+                        live classes, access recorded sessions, receive 1:1
+                        mentorship, and use various resources for career
+                        development and job placement.
+                      question_id: '5'
+                    - answer: >-
+                        Customers prefer flexible learning schedules, especially
+                        working professionals who need classes to be scheduled
+                        after office hours or on weekends. They also value
+                        comprehensive support systems, including doubt
+                        resolution, mock interviews, and personalized career
+                        guidance.
+                      question_id: '6'
+                    - answer: >-
+                        Geekster's brand voice is professional yet approachable
+                        and supportive. The tone aims to be encouraging,
+                        empowering learners to achieve their career goals while
+                        maintaining a sense of professionalism.
+                      question_id: '7'
+                    - answer: >-
+                        The chatbot should reflect Geekster’s commitment to
+                        quality education, supportiveness, innovation, and
+                        reliability. It should convey a sense of expertise while
+                        being friendly and helpful to users.
+                      question_id: '8'
+                    - answer: >-
+                        The industry uses a moderate level of technical
+                        language, including terms like MERN stack, AWS, Data
+                        Structures & Algorithms, and machine learning. Most
+                        customers are familiar with these terms, but the chatbot
+                        should be able to simplify explanations for beginners.
+                      question_id: '9'
+                    - answer: >-
+                        Geekster prefers the chatbot to use semi-formal
+                        language. It should maintain professionalism but also be
+                        conversational and approachable to make users feel
+                        comfortable.
+                      question_id: '10'
+                    - answer: GeekBot
+                      question_id: direct-chatbot_name
+                    - answer: >-
+                        If I'm not sure about the answer, let me check with my
+                        team and get back to you. Meanwhile, you can explore our
+                        FAQs or contact us directly for assistance.
+                      question_id: direct-no_answer_reply
+                    - answer: FewEmojis
+                      question_id: direct-preferred_emoji_quantity
+                business_whatsapp_display_phone_number:
+                  type: string
+                  example: '8297136620'
+            examples:
+              bot-persona-configure:
+                value:
+                  answers:
+                    - answer: >-
+                        We are Geekster and we are an online education platform
+                        specializing in tech-related courses. It provides
+                        comprehensive learning programs in Full Stack Web
+                        Development and Data Science & Machine Learning, with a
+                        strong focus on placement assistance. The industry
+                        encompasses online education, coding bootcamps, and
+                        career development services.
+                      question_id: '2'
+                    - answer: >-
+                        Geekster offers Full Stack Web Development and Data
+                        Science & Machine Learning programs. Key features
+                        include real-world projects, AI-powered curriculum,
+                        comprehensive learning in Data Structures & Algorithms
+                        (DSA), MERN stack, AWS, and dedicated career services
+                        such as mock interviews, resume building, and job
+                        referrals.
+                      question_id: '3'
+                    - answer: >-
+                        Geekster's main customers are final year students,
+                        recent graduates, and working professionals who are
+                        interested in building a career in tech. The platform is
+                        designed to cater to individuals seeking to upskill or
+                        transition into tech roles.
+                      question_id: '4'
+                    - answer: >-
+                        Customers interact with Geekster through its online
+                        platform. They can sign up for courses, participate in
+                        live classes, access recorded sessions, receive 1:1
+                        mentorship, and use various resources for career
+                        development and job placement.
+                      question_id: '5'
+                    - answer: >-
+                        Customers prefer flexible learning schedules, especially
+                        working professionals who need classes to be scheduled
+                        after office hours or on weekends. They also value
+                        comprehensive support systems, including doubt
+                        resolution, mock interviews, and personalized career
+                        guidance.
+                      question_id: '6'
+                    - answer: >-
+                        Geekster's brand voice is professional yet approachable
+                        and supportive. The tone aims to be encouraging,
+                        empowering learners to achieve their career goals while
+                        maintaining a sense of professionalism.
+                      question_id: '7'
+                    - answer: >-
+                        The chatbot should reflect Geekster’s commitment to
+                        quality education, supportiveness, innovation, and
+                        reliability. It should convey a sense of expertise while
+                        being friendly and helpful to users.
+                      question_id: '8'
+                    - answer: >-
+                        The industry uses a moderate level of technical
+                        language, including terms like MERN stack, AWS, Data
+                        Structures & Algorithms, and machine learning. Most
+                        customers are familiar with these terms, but the chatbot
+                        should be able to simplify explanations for beginners.
+                      question_id: '9'
+                    - answer: >-
+                        Geekster prefers the chatbot to use semi-formal
+                        language. It should maintain professionalism but also be
+                        conversational and approachable to make users feel
+                        comfortable.
+                      question_id: '10'
+                    - answer: GeekBot
+                      question_id: direct-chatbot_name
+                    - answer: >-
+                        If I'm not sure about the answer, let me check with my
+                        team and get back to you. Meanwhile, you can explore our
+                        FAQs or contact us directly for assistance.
+                      question_id: direct-no_answer_reply
+                    - answer: FewEmojis
+                      question_id: direct-preferred_emoji_quantity
+                  business_whatsapp_display_phone_number: '8297136620'
+      responses:
+        '200':
+          description: ''
+  /chat:
+    post:
+      summary: chat
+      description: >-
+        ## Chat Message
+
+
+        This endpoint allows you to send a chat message with the specified
+        message content, phone number, and project ID.
+
+
+        ### Request Body
+
+
+        - `data` (object)
+            
+            - `message` (object)
+                
+                - `message_content` (object)
+                    
+                    - `text` (string, required): The content of the message.
+                        
+                - `phone_number` (string, required): The phone number of the recipient.
+                    
+                - `project_id` (string, required): The ID of the project.
+                    
+
+        ### Response
+
+
+        The response will include the status of the message delivery.
+
+
+        ``` json
+
+        {
+            "status": "string",
+            "success": boolean,
+            "response_message": "string"
+        }
+
+         ```
+
+        In case of failure:
+
+
+        ``` json
+
+        {
+            "status": "string",
+            "success": boolean,
+            "error": "string"
+        }
+
+         ```
+      operationId: chat
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    message:
+                      type: object
+                      properties:
+                        message_content:
+                          type: object
+                          properties:
+                            text:
+                              type: string
+                              example: Hey bot whts up?
+                        phone_number:
+                          type: string
+                          example: phone_number
+                        project_id:
+                          type: string
+                          example: project_id
+            examples:
+              chat:
+                value:
+                  data:
+                    message:
+                      message_content:
+                        text: Hey bot whts up?
+                      phone_number: phone_number
+                      project_id: project_id
+      responses:
+        '200':
+          description: ''
+  /chat/resume:
+    post:
+      summary: chat-resume
+      description: >-
+        ### POST /chat/resume
+
+
+        This endpoint is used to resume a chat session.
+
+
+        #### Request Body
+
+
+        - `business_whatsapp_display_phone_number` (string, optional): The phone
+        number displayed for the business on WhatsApp.
+            
+        - `user_phone_number` (string, optional): The phone number of the user.
+            
+
+        #### Response
+
+
+        The response for this request follows the JSON schema below:
+
+
+        ``` json
+
+        {
+          "error": boolean,
+          "message": "string"
+        }
+
+         ```
+      operationId: chatResume
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: '{{x-api-key}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                business_whatsapp_display_phone_number:
+                  type: string
+                  example: '8297136620'
+                user_phone_number:
+                  type: string
+                  example: '919999999999'
+            examples:
+              chat-resume:
+                value:
+                  business_whatsapp_display_phone_number: '8297136620'
+                  user_phone_number: '919999999999'
+      responses:
+        '200':
+          description: ''
+tags: []
