@@ -92,14 +92,10 @@
       "group": "Api reference",
       "pages": [
         {
-          "group": "whatsapp template generation",
+          "group": "WhatsApp Template Message Generation",
           "pages": [
-            {
-              "group": "Introduction",
-              "pages": ["api-reference/whatsapp-template-generation/introduction"]
-            },
-            {
-              "group": "Endpoints",
+              "api-reference/whatsapp-template-generation/overview",
+            {  "group": "Endpoints",
               "pages": ["api-reference/whatsapp-template-generation/endpoint/prod"]
             }
           ]
@@ -107,8 +103,7 @@
         {
           "group": "Chat Bot System",
           "pages": [
-            { "group": "Introduction",
-              "pages":["api-reference/chat-bot-system/introduction"]},
+            "api-reference/chat-bot-system/overview",
             {
               "group": "Endpoints",
               "pages": [
@@ -124,6 +119,18 @@
                 "api-reference/chat-bot-system/endpoint/chat",
                 "api-reference/chat-bot-system/endpoint/create_business",
                 "api-reference/chat-bot-system/endpoint/get_business_list"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Rate Limiter",
+          "pages": [
+            "api-reference/rate-limiter/overview",
+            {
+              "group": "Endpoints",
+              "pages": [
+                "api-reference/rate-limiter/endpoint/rate-limiter"
               ]
             }
           ]

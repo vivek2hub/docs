@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: Rate-Limiter
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: https://rc8f19e21j.execute-api.ap-south-1.amazonaws.com
+paths:
+  /prod:
+    post:
+      summary: rate-limiter
+      description: rate-limiter
+      operationId: rateLimiter
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+            example: MzPsl0eZqD1ExuEPlFHlo4QQJJGkOdVd4cfPcbWW
+      requestBody:
+        content:
+          application/json:
+            examples:
+              rate-limiter:
+                value: ''
+      responses:
+        '200':
+          description: ''
+tags: []

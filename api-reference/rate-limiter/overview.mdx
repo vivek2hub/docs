@@ -1,0 +1,20 @@
+---
+title: Overview
+description: Control request rates from single IP addresses using Redis.
+---
+
+# Rate Limiter Project
+
+This project provides a rate limiting system to control the number of requests from individual IP addresses, using Redis to store request data. This ensures that requests are kept within acceptable limits to prevent abuse, allowing flexibility and scalability in managing client requests across applications.
+
+---
+
+### Applications
+
+The rate limiter is particularly useful for:
+
+- **API Management**: Preventing a single IP address from flooding your API with excessive requests.
+- **Web Security**: Blocking IP addresses after reaching a specified request threshold to mitigate potential attacks like DoS (Denial of Service).
+- **Traffic Shaping**: Allowing fair resource usage by throttling high-frequency requests to maintain optimal performance for all users.
+
+The rate limiter checks each request against stored Redis data for the requesting IP. If an IP address has exceeded its limit, it is temporarily blocked, and further requests from that address will receive a response indicating the block. Unblocked requests will continue processing.
